@@ -5,3 +5,5 @@ vendor/
 node_modules/
 .DS_Store
 Thumbs.db
+
+/Database/for init database.txt
