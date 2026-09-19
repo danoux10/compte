@@ -1,0 +1,96 @@
+<form
+	action="../../../backend/controllers/authCont.php?task=register"
+	method="post"
+	id="register-form"
+>
+
+  <div id="register-response" class="hidden"></div>
+
+  <span>
+    <label for="name-register">
+      Nom
+      <strong class="required">*</strong> :
+    </label>
+
+    <input
+	    type="text"
+	    name="name"
+	    id="name-register"
+	    required
+    >
+  </span>
+
+	<span>
+    <label for="lastname-register">
+      Prénom
+      <strong class="required">*</strong> :
+    </label>
+
+    <input
+	    type="text"
+	    name="lastname"
+	    id="lastname-register"
+	    required
+    >
+  </span>
+
+	<span>
+    <label for="email-register">
+      Email
+      <strong class="required">*</strong> :
+    </label>
+
+    <input
+	    type="email"
+	    name="email"
+	    id="email-register"
+	    required
+    >
+  </span>
+
+	<span>
+    <label for="password-register">
+      Mot de passe
+      <strong class="required">*</strong> :
+    </label>
+
+    <input
+	    type="password"
+	    name="password"
+	    id="password-register"
+	    required
+    >
+  </span>
+
+	<span>
+    <label for="confirm-password-register">
+      Confirmer le mot de passe
+      <strong class="required">*</strong> :
+    </label>
+
+    <input
+	    type="password"
+	    name="password_confirm"
+	    id="confirm-password-register"
+	    required
+    >
+  </span>
+
+	<span class="checkbox-group">
+    <input
+	    type="checkbox"
+	    name="terms"
+	    id="terms-register"
+	    required
+    >
+
+    <label for="terms-register">
+      J'accepte les conditions d'utilisation
+    </label>
+  </span>
+
+	<button type="submit">
+		Créer mon compte
+	</button>
+
+</form>

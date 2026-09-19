@@ -1,0 +1,169 @@
+@use "base/reset";
+
+/* =========================
+   SWITCH FORM
+========================= */
+
+#switch-form {
+  display: flex;
+  gap: 10px;
+
+  width: 100%;
+  max-width: 450px;
+
+  margin-bottom: 25px;
+
+  button {
+    flex: 1;
+
+    background-color: transparent;
+    color: #fff;
+
+    border: 1px solid #444;
+
+    transition:
+            background-color 0.2s ease,
+            color 0.2s ease,
+            border-color 0.2s ease;
+
+    &:hover {
+      background-color: #222;
+    }
+
+    &.active {
+      background-color: #fff;
+      color: #000;
+
+      border-color: #fff;
+    }
+  }
+}
+
+
+/* =========================
+   FORMULAIRES
+========================= */
+
+#login-form,
+#register-form {
+  display: none;
+
+  flex-direction: column;
+  gap: 20px;
+
+  width: 100%;
+  max-width: 450px;
+}
+
+
+/* =========================
+   GROUPE CHAMP
+========================= */
+
+#login-form > span,
+#register-form > span {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+/* =========================
+   LABEL
+========================= */
+
+#login-form label,
+#register-form label {
+  display: block;
+}
+
+
+/* =========================
+   REQUIRED
+========================= */
+
+.required {
+  color: #fff;
+}
+
+
+/* =========================
+   CHECKBOX
+========================= */
+
+.checkbox-group {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+
+  gap: 10px !important;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+
+    accent-color: #fff;
+  }
+
+  label {
+    cursor: pointer;
+  }
+}
+
+
+/* =========================
+   BOUTON SUBMIT
+========================= */
+
+#login-form > button[type="submit"],
+#register-form > button[type="submit"] {
+  width: 100%;
+}
+
+#register-response {
+  padding: 10px 12px;
+  border-radius: 6px;
+
+  &.hidden {
+    display: none;
+  }
+
+  &.success {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+
+  &.error {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+}
+
+
+/* =========================
+   MOT DE PASSE OUBLIÉ
+========================= */
+
+#forgot-password {
+  align-self: flex-start;
+
+  width: fit-content;
+
+  padding: 0;
+
+  background: transparent;
+  color: #fff;
+
+  border: none;
+  border-radius: 0;
+
+  text-decoration: underline;
+
+  &:hover {
+    background: transparent;
+
+    opacity: 0.7;
+  }
+}

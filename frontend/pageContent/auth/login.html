@@ -1,0 +1,61 @@
+<form
+	action="../../../backend/controllers/authCont.php?task=login"
+	method="post"
+	id="login-form"
+>
+	<div id="login-response"></div>
+
+  <span>
+    <label for="email-login">
+      Email
+      <strong class="required">*</strong> :
+    </label>
+
+    <input
+	    type="email"
+	    name="email"
+	    id="email-login"
+	    required
+    >
+  </span>
+
+	<span>
+    <label for="password-login">
+      Mot de passe
+      <strong class="required">*</strong> :
+    </label>
+
+    <input
+	    type="password"
+	    name="password"
+	    id="password-login"
+	    required
+    >
+  </span>
+
+	<span class="checkbox-group">
+
+    <input
+	    type="checkbox"
+	    name="remember"
+	    id="remember-login"
+    >
+
+    <label for="remember-login">
+      Se souvenir de moi
+    </label>
+
+  </span>
+
+	<button type="submit">
+		Connexion
+	</button>
+
+	<button
+		type="button"
+		id="forgot-password"
+	>
+		Mot de passe oublié ?
+	</button>
+
+</form>

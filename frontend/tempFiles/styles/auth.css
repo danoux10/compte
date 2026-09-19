@@ -1,0 +1,267 @@
+@charset "UTF-8";
+/* =========================
+   RESET
+========================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================
+   TEXTES
+========================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* =========================
+   FORMULAIRES
+========================= */
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 10px 12px;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #888;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #fff;
+}
+
+/* Autofill Chrome */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0 1000px #111 inset;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* =========================
+   BUTTON
+========================= */
+button {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   MEDIA
+========================= */
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* =========================
+   TABLE
+========================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* =========================
+   SELECTION
+========================= */
+::selection {
+  background-color: #fff;
+  color: #000;
+}
+
+/* =========================
+   SWITCH FORM
+========================= */
+#switch-form {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 25px;
+}
+#switch-form button {
+  flex: 1;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #444;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+#switch-form button:hover {
+  background-color: #222;
+}
+#switch-form button.active {
+  background-color: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+/* =========================
+   FORMULAIRES
+========================= */
+#login-form,
+#register-form {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 450px;
+}
+
+/* =========================
+   GROUPE CHAMP
+========================= */
+#login-form > span,
+#register-form > span {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* =========================
+   LABEL
+========================= */
+#login-form label,
+#register-form label {
+  display: block;
+}
+
+/* =========================
+   REQUIRED
+========================= */
+.required {
+  color: #fff;
+}
+
+/* =========================
+   CHECKBOX
+========================= */
+.checkbox-group {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px !important;
+}
+.checkbox-group input[type=checkbox] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: #fff;
+}
+.checkbox-group label {
+  cursor: pointer;
+}
+
+/* =========================
+   BOUTON SUBMIT
+========================= */
+#login-form > button[type=submit],
+#register-form > button[type=submit] {
+  width: 100%;
+}
+
+#register-response {
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+#register-response.hidden {
+  display: none;
+}
+#register-response.success {
+  background-color: rgba(0, 255, 0, 0.5);
+}
+#register-response.error {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+/* =========================
+   MOT DE PASSE OUBLIÉ
+========================= */
+#forgot-password {
+  align-self: flex-start;
+  width: fit-content;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  text-decoration: underline;
+}
+#forgot-password:hover {
+  background: transparent;
+  opacity: 0.7;
+}
+
+/*# sourceMappingURL=auth.css.map */
