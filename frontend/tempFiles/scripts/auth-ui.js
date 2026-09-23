@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'register'
   */
 
-  const defaultForm = 'register';
+  const defaultForm = 'login';
 
 
   /* =========================

@@ -1,4 +1,10 @@
 <?php
+require_once __DIR__ . '/../../backend/helpers/session.php';
+
+if (isUserLoggedIn()) {
+  header('Location: testLogout.php');
+  exit;
+}
 
 $authContentPath = __DIR__ . '/../pageContent/auth/';
 

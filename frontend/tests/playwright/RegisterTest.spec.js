@@ -5,6 +5,7 @@ const { test, expect } = require('@playwright/test');
    DONNÉES VALIDES
 ========================= */
 
+// Utilisateur valide utilisé comme base pour les tests
 const validUser = {
   name: 'Dupont',
   lastname: 'Jean',
@@ -19,13 +20,16 @@ const validUser = {
    REMPLISSAGE DU FORMULAIRE
 ========================= */
 
+// Fonction utilitaire pour remplir le formulaire d'inscription avec les données fournies
 async function fillRegisterForm(page, data = {}) {
 
+  // Fusion des données par défaut avec les données personnalisées
   const user = {
     ...validUser,
     ...data
   };
 
+  // Remplissage des champs du formulaire
   await page
     .locator('#name-register')
     .fill(user.name);
@@ -47,6 +51,7 @@ async function fillRegisterForm(page, data = {}) {
     .fill(user.passwordConfirm);
 
 
+  // Gestion de la case à cocher des conditions d'utilisation
   const terms =
     page.locator('#terms-register');
 
@@ -68,17 +73,20 @@ async function fillRegisterForm(page, data = {}) {
    SIMULATION DU BACKEND
 ========================= */
 
+// Fonction pour simuler la réponse du backend et intercepter l'appel API
 async function mockRegisterResponse(
   page,
   body,
   status = 400
 ) {
 
+  // Interceptation de la requête d'inscription
   await page.route(
     '**/authCont.php?task=register',
 
     async route => {
 
+      // Renvoi d'une réponse mockée avec le statut et le corps spécifiés
       await route.fulfill({
         status,
         contentType: 'application/json',
@@ -95,8 +103,10 @@ async function mockRegisterResponse(
    AVANT CHAQUE TEST
 ========================= */
 
+// Configuration exécutée avant chaque test
 test.beforeEach(async ({ page }) => {
 
+  // Navigation vers la page d'authentification et affichage du formulaire d'inscription
   await page.goto(
     'frontend/pages/auth.php'
   );

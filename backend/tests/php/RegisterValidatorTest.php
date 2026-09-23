@@ -3,12 +3,14 @@
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+// Inclusion de la fonction de validation
 require_once __DIR__ . '/../../helpers/validator/register.php';
 
 final class RegisterValidatorTest extends TestCase
 {
   /**
-   * Données valides utilisées comme base pour les tests.
+   * Fournit les données valides utilisées comme base pour les tests.
+   * Les données personnalisées remplacent ces valeurs par défaut.
    */
   private function validData(): array
   {
@@ -28,6 +30,7 @@ final class RegisterValidatorTest extends TestCase
   ========================= */
 
   #[Test]
+  // Vérifie qu'une inscription avec toutes les données valides ne génère pas d'erreurs
   public function registerValid(): void
   {
     $errors = validateRegister(
@@ -43,6 +46,7 @@ final class RegisterValidatorTest extends TestCase
   ========================= */
 
   #[Test]
+  // Vérifie que le nom ne peut pas être vide
   public function nameRequired(): void
   {
     $data = $this->validData();
@@ -59,6 +63,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie que le nom composé uniquement d'espaces est invalide
   public function nameWithOnlySpacesIsInvalid(): void
   {
     $data = $this->validData();
@@ -79,6 +84,7 @@ final class RegisterValidatorTest extends TestCase
   ========================= */
 
   #[Test]
+  // Vérifie que le prénom ne peut pas être vide
   public function lastnameRequired(): void
   {
     $data = $this->validData();
@@ -95,6 +101,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie que le prénom composé uniquement d'espaces est invalide
   public function lastnameWithOnlySpacesIsInvalid(): void
   {
     $data = $this->validData();
@@ -115,6 +122,7 @@ final class RegisterValidatorTest extends TestCase
   ========================= */
 
   #[Test]
+  // Vérifie que l'email ne peut pas être vide
   public function emailRequired(): void
   {
     $data = $this->validData();
@@ -131,6 +139,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie qu'un email mal formaté est rejeté
   public function emailInvalid(): void
   {
     $data = $this->validData();
@@ -147,6 +156,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie qu'un email valide n'a pas d'erreur
   public function emailValid(): void
   {
     $data = $this->validData();
@@ -167,6 +177,7 @@ final class RegisterValidatorTest extends TestCase
   ========================= */
 
   #[Test]
+  // Vérifie que le mot de passe ne peut pas être vide
   public function passwordRequired(): void
   {
     $data = $this->validData();
@@ -184,6 +195,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie que le mot de passe doit contenir au minimum 8 caractères
   public function passwordTooShort(): void
   {
     $data = $this->validData();
@@ -201,6 +213,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie que le mot de passe doit contenir au moins une lettre minuscule
   public function passwordWithoutLowercase(): void
   {
     $data = $this->validData();
@@ -218,6 +231,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie que le mot de passe doit contenir au moins une lettre majuscule
   public function passwordWithoutUppercase(): void
   {
     $data = $this->validData();
@@ -235,6 +249,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie que le mot de passe doit contenir au moins un chiffre
   public function passwordWithoutNumber(): void
   {
     $data = $this->validData();
@@ -252,6 +267,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie que le mot de passe doit contenir au moins un caractère spécial
   public function passwordWithoutSpecialCharacter(): void
   {
     $data = $this->validData();
@@ -273,6 +289,7 @@ final class RegisterValidatorTest extends TestCase
   ========================= */
 
   #[Test]
+  // Vérifie que la confirmation du mot de passe est obligatoire
   public function passwordConfirmationRequired(): void
   {
     $data = $this->validData();
@@ -289,6 +306,7 @@ final class RegisterValidatorTest extends TestCase
 
 
   #[Test]
+  // Vérifie que les deux mots de passe doivent correspondre
   public function passwordsDoNotMatch(): void
   {
     $data = $this->validData();
@@ -310,6 +328,7 @@ final class RegisterValidatorTest extends TestCase
   ========================= */
 
   #[Test]
+  // Vérifie que l'acceptation des conditions d'utilisation est obligatoire
   public function termsRequired(): void
   {
     $data = $this->validData();
@@ -330,6 +349,7 @@ final class RegisterValidatorTest extends TestCase
   ========================= */
 
   #[Test]
+  // Vérifie que plusieurs erreurs peuvent être détectées simultanément
   public function multipleErrors(): void
   {
     $errors = validateRegister([
@@ -341,6 +361,7 @@ final class RegisterValidatorTest extends TestCase
       'terms' => false
     ]);
 
+    // Vérification que tous les champs ont généré une erreur
     $this->assertArrayHasKey(
       'name',
       $errors

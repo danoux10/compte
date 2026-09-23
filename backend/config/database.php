@@ -16,7 +16,13 @@ try {
     ]
   );
 } catch (Exception $e) {
-  die('Erreur : ' . $e->getMessage());
+  http_response_code(500);
+  header('Content-Type: application/json; charset=utf-8');
+  echo json_encode([
+    'success' => false,
+    'message' => 'Erreur de connexion à la base de données.'
+  ], JSON_UNESCAPED_UNICODE);
+  exit;
 }
 
 ?>
