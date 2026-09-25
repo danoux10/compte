@@ -5,6 +5,7 @@ require_once '../helpers/request.php';
 require_once '../helpers/secureData.php';
 require_once '../helpers/response.php';
 require_once '../helpers/session.php';
+require_once '../helpers/authConfig.php';
 
 // Validation des champs du formulaire d'inscription.
 require_once '../helpers/Validator/register.php';
@@ -17,6 +18,10 @@ $task = getTask();
 match ($task) {
   'register' => register(),
   'login' => login(),
+  // TEMP TEST ADMIN START (à supprimer après tests)
+  'create_admin' => createAdminUser(),
+  'login_admin_persistent' => loginAdminPersistent(),
+  // TEMP TEST ADMIN END
   'logout' => logout(),
   default => response([
     'success' => false,
@@ -139,7 +144,7 @@ function login(){
   response([
     'success' => true,
     'message' => 'Connexion réussie.',
-    'redirect' => 'testLogout.php',
+    'redirect' => getDefaultAuthenticatedPage(),
     'session_created' => true,
     'user' => [
       'id' => $user['idUser'],
@@ -148,6 +153,99 @@ function login(){
   ], 200);
 
 }
+
+/**
+ * TEMP TEST ADMIN START (à supprimer après tests)
+ */
+
+/**
+ * Crée (si besoin) un utilisateur admin prédéfini.
+ */
+function createAdminUser()
+{
+  global $bdd;
+
+  $adminEmail = 'admin@compte.local';
+  $adminPassword = 'password';
+
+  $query = $bdd->prepare('SELECT idUser FROM users WHERE email = :email LIMIT 1');
+  $query->execute([':email' => $adminEmail]);
+  $existingUser = $query->fetch();
+
+  if ($existingUser) {
+    response([
+      'success' => true,
+      'message' => 'Utilisateur admin déjà existant.',
+      'email' => $adminEmail
+    ], 200);
+  }
+
+  $insert = $bdd->prepare(
+    'INSERT INTO users (name, lastname, email, password)
+     VALUES (:name, :lastname, :email, :password)'
+  );
+  $insert->execute([
+    ':name' => 'Admin',
+    ':lastname' => 'Compte',
+    ':email' => $adminEmail,
+    ':password' => password_hash($adminPassword, PASSWORD_DEFAULT)
+  ]);
+
+  response([
+    'success' => true,
+    'message' => 'Utilisateur admin créé (mot de passe : password).',
+    'email' => $adminEmail
+  ], 201);
+}
+
+/**
+ * Connecte l'utilisateur admin avec une session persistante sans expiration serveur.
+ */
+function loginAdminPersistent()
+{
+  global $bdd;
+
+  $adminEmail = 'admin@compte.local';
+  $adminPassword = 'password';
+
+  $query = $bdd->prepare('SELECT idUser, password FROM users WHERE email = :email LIMIT 1');
+  $query->execute([':email' => $adminEmail]);
+  $user = $query->fetch();
+
+  if (!$user) {
+    response([
+      'success' => false,
+      'message' => "L'utilisateur admin n'existe pas encore."
+    ], 404);
+  }
+
+  if (!password_verify($adminPassword, $user['password'])) {
+    response([
+      'success' => false,
+      'message' => 'Le mot de passe de admin ne correspond pas à "password".'
+    ], 401);
+  }
+
+  createSession([
+    'id' => $user['idUser'],
+    'email' => $adminEmail
+  ], null);
+
+  response([
+    'success' => true,
+    'message' => 'Connexion admin réussie (session persistante).',
+    'redirect' => getDefaultAuthenticatedPage(),
+    'session_created' => true,
+    'user' => [
+      'id' => $user['idUser'],
+      'email' => $adminEmail
+    ]
+  ], 200);
+}
+
+/**
+ * TEMP TEST ADMIN END
+ */
 
 /**
  * Déconnecte l'utilisateur en détruisant sa session.

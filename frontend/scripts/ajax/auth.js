@@ -3,6 +3,11 @@ const registerResponse = document.getElementById("register-response");
 
 const loginForm = document.getElementById("login-form");
 const loginResponse = document.getElementById("login-response");
+// TEMP TEST ADMIN START (à supprimer après tests)
+const quickAdminResponse = document.getElementById("quick-admin-response");
+const createAdminButton = document.getElementById("create-admin-btn");
+const loginAdminButton = document.getElementById("login-admin-btn");
+// TEMP TEST ADMIN END
 
 const logoutForms = document.getElementById("logout-forms");
 
@@ -112,7 +117,7 @@ function handleLoginFormSubmit(event) {
         loginForm.reset();
         loginResponse.textContent = data.message ?? "Connexion réussie.";
         loginResponse.classList.add("success");
-        window.location.href = data.redirect ?? "testLogout.php";
+        window.location.href = data.redirect ?? window.defaultAuthenticatedPage ?? "testLogout.php";
         return;
       }
 
@@ -183,6 +188,59 @@ function handleLogout(event) {
     });
 }
 
+// TEMP TEST ADMIN START (à supprimer après tests)
+function displayQuickAdminMessage(message, isSuccess = true) {
+  if (!quickAdminResponse) {
+    return;
+  }
+
+  quickAdminResponse.classList.remove("hidden", "success", "error");
+  quickAdminResponse.textContent = message;
+  quickAdminResponse.classList.add(isSuccess ? "success" : "error");
+}
+
+function handleCreateAdminUser() {
+  fetch("../../../backend/controllers/authCont.php?task=create_admin", {
+    method: "POST"
+  })
+    .then(async response => {
+      if (!response.ok) {
+        const data = await parseJsonResponse(response, "Impossible de créer l'utilisateur admin.");
+        return Promise.reject(data || { message: "Impossible de créer l'utilisateur admin." });
+      }
+
+      return parseJsonResponse(response, "Impossible de créer l'utilisateur admin.");
+    })
+    .then(data => {
+      displayQuickAdminMessage(data.message ?? "Utilisateur admin prêt.", true);
+    })
+    .catch(error => {
+      displayQuickAdminMessage(error?.message || "Impossible de créer l'utilisateur admin.", false);
+    });
+}
+
+function handleLoginAdminPersistent() {
+  fetch("../../../backend/controllers/authCont.php?task=login_admin_persistent", {
+    method: "POST"
+  })
+    .then(async response => {
+      if (!response.ok) {
+        const data = await parseJsonResponse(response, "Impossible de connecter admin.");
+        return Promise.reject(data || { message: "Impossible de connecter admin." });
+      }
+
+      return parseJsonResponse(response, "Impossible de connecter admin.");
+    })
+    .then(data => {
+      displayQuickAdminMessage(data.message ?? "Connexion admin réussie.", true);
+      window.location.href = data.redirect ?? window.defaultAuthenticatedPage ?? "testLogout.php";
+    })
+    .catch(error => {
+      displayQuickAdminMessage(error?.message || "Impossible de connecter admin.", false);
+    });
+}
+// TEMP TEST ADMIN END
+
 if (registerForm) {
   registerForm.addEventListener("submit", handleRegisterFormSubmit);
 }
@@ -194,3 +252,13 @@ if (loginForm) {
 if (logoutForms) {
   logoutForms.addEventListener("submit", handleLogout);
 }
+
+// TEMP TEST ADMIN START (à supprimer après tests)
+if (createAdminButton) {
+  createAdminButton.addEventListener("click", handleCreateAdminUser);
+}
+
+if (loginAdminButton) {
+  loginAdminButton.addEventListener("click", handleLoginAdminPersistent);
+}
+// TEMP TEST ADMIN END

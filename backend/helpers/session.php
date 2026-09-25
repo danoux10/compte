@@ -4,17 +4,20 @@
  * Définit les données de l'utilisateur en session et configure le temps d'expiration.
  *
  * @param array $userData Données de l'utilisateur (idUser, email, etc.)
- * @param int $sessionDuration Durée de la session en secondes (par défaut 3600 = 1 heure)
+ * @param int|null $sessionDuration Durée de la session en secondes (null = session sans expiration)
  * @return void
  */
-function createSession(array $userData, int $sessionDuration = 3600): void
+function createSession(array $userData, ?int $sessionDuration = 3600): void
 {
   $isSecureConnection = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+  // TEMP TEST ADMIN START (à supprimer après tests)
+  $cookieLifetime = $sessionDuration ?? 315360000; // 10 ans
+  // TEMP TEST ADMIN END
 
   if (session_status() === PHP_SESSION_NONE) {
     // Configure le cookie de session avant le démarrage de session.
     session_set_cookie_params([
-      'lifetime' => $sessionDuration,
+      'lifetime' => $cookieLifetime,
       'httponly' => true,
       'secure' => $isSecureConnection,
       'samesite' => 'Lax'
@@ -30,8 +33,14 @@ function createSession(array $userData, int $sessionDuration = 3600): void
   // Définit le temps de création de la session.
   $_SESSION['created_at'] = time();
 
-  // Définit le temps d'expiration de la session.
-  $_SESSION['expires_at'] = time() + $sessionDuration;
+  // TEMP TEST ADMIN START (à supprimer après tests)
+  // Définit le temps d'expiration de la session si demandé.
+  if ($sessionDuration !== null) {
+    $_SESSION['expires_at'] = time() + $sessionDuration;
+  } else {
+    unset($_SESSION['expires_at']);
+  }
+  // TEMP TEST ADMIN END
 
 }
 

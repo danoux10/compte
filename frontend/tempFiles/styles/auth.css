@@ -141,6 +141,37 @@ table {
   color: #000;
 }
 
+/* TEMP TEST ADMIN START (à supprimer après tests) */
+/* =========================
+   ACTIONS ADMIN RAPIDES
+========================= */
+#quick-admin-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 20px;
+}
+
+#quick-admin-response {
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+#quick-admin-response.hidden {
+  display: none;
+}
+
+#quick-admin-response.success {
+  background-color: rgba(0, 255, 0, 0.5);
+}
+
+#quick-admin-response.error {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+/* TEMP TEST ADMIN END */
+
 /* =========================
    SWITCH FORM
 ========================= */
