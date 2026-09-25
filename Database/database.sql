@@ -15,12 +15,28 @@ CREATE TABLE IF NOT EXISTS users
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS icons
+(
+    idIcon   INT  UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name     VARCHAR(100) NOT NULL,
+    path     VARCHAR(255) NOT NULL,
+    /* NULL = icon crée par défaut
+    sinon idUser = icon ajouter par l'utilisateur */
+    user_id  INT UNSIGNED  NULL DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_icons_user
+        FOREIGN KEY (user_id)
+            REFERENCES users (idUser)
+            ON DELETE CASCADE
+)ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS categories
 (
     idCategory INT AUTO_INCREMENT PRIMARY KEY,
     name       VARCHAR(255)                NOT NULL,
     color      VARCHAR(7)                  NOT NULL,
-    icon       VARCHAR(255)                NOT NULL,
+    icon       INT UNSIGNED                NOT NULL,
     type       ENUM ('income', 'expense')  NOT NULL,
     /* NULL = catégorie crée par défaut
      sinon idUser = catégorie crée par l'utilisateur */
@@ -28,6 +44,10 @@ CREATE TABLE IF NOT EXISTS categories
     state      ENUM ('active', 'inactive') NOT NULL DEFAULT 'active',
     created_at TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP                            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_categories_icon
+        FOREIGN KEY (icon)
+            REFERENCES icons (idIcon)
+            ON DELETE CASCADE,
     CONSTRAINT fk_categories_user
         FOREIGN KEY (idUser)
             REFERENCES users (idUser)
