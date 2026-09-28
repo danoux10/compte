@@ -1,0 +1,146 @@
+// Variables locales de la page "icônes par défaut".
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --panel: #1f2937;
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --border: rgba(148, 163, 184, 0.2);
+  --shadow: 0 12px 30px rgba(15, 23, 42, 0.45);
+  --icon-bg: rgba(255, 255, 255, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 48px auto;
+  padding: 24px;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+h1 {
+  margin: 0 0 24px;
+  font-size: 2rem;
+  color: var(--text);
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#seed-icons-btn {
+  background: var(--primary);
+  color: #fff;
+}
+
+#seed-icons-btn:hover {
+  background: var(--primary-dark);
+}
+
+#show-icons-btn {
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1px solid var(--border);
+}
+
+#show-icons-btn:hover {
+  background: #334155;
+}
+
+#status-message {
+  min-height: 28px;
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+#status-message.success {
+  color: #86efac;
+}
+
+#status-message.error {
+  color: #fca5a5;
+}
+
+#icon-list {
+  display: grid;
+  gap: 24px;
+}
+
+.category-block {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  padding: 18px;
+}
+
+.category-block h2 {
+  margin: 0 0 16px;
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 16px;
+}
+
+.icon-item {
+  background: var(--icon-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.icon-item img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.icon-item span {
+  font-size: 0.8rem;
+  word-break: break-word;
+  color: var(--muted);
+}
