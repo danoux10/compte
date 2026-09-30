@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-</head>
-<body>
+<form action="../../../backend/controllers/categoriesCont.php?task=add_icon" method="post" id="icons-form" enctype="multipart/form-data">
+	<span>
+		<label for="icon-name">nom icon</label>
+		<input type="text" id="icon-name" name="icon-name" required>
+	</span>
 
-</body>
-</html>
+	<span>
+		<label for="icon-file">Votre icon</label>
+		<input type="file" id="icon-file" name="icon-file" accept=".svg,image/svg+xml" required>
+	</span>
+
+	<div id="preview-icon"></div>
+
+	<button type="submit">Ajouter</button>
+	<button type="button">Annuler</button>
+</form>
