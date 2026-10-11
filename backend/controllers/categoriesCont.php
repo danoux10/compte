@@ -281,6 +281,7 @@ function updateCategory() {
     ], 400);
   }
 
+  // Une catégorie par défaut (idUser = NULL) ne peut pas être modifiée par l'utilisateur.
   $findCategory = $bdd->prepare(
     'SELECT idCategory
      FROM categories
@@ -390,16 +391,54 @@ function getCategories() {
   global $bdd;
   $userId = getConnectedUserId();
 
+  /*
+   * On récupère :
+   * - les catégories par défaut (idUser IS NULL)
+   * - les catégories personnelles de l'utilisateur
+   *
+   * Pour une catégorie par défaut, categoryUserSettings permet
+   * d'avoir un état différent pour chaque utilisateur.
+   */
   $getCategories = $bdd->prepare(
-    'SELECT c.idCategory, c.name, c.type, c.icon, c.color, c.state, i.path AS iconPath
+    'SELECT
+       c.idCategory,
+       c.name,
+       c.type,
+       c.icon,
+       c.color,
+       c.idUser,
+       i.path AS iconPath,
+
+       CASE
+         WHEN c.idUser IS NULL THEN COALESCE(cus.state, c.state)
+         ELSE c.state
+       END AS state,
+
+       CASE
+         WHEN c.idUser IS NULL THEN 1
+         ELSE 0
+       END AS isDefault
+
      FROM categories c
-     LEFT JOIN icons i ON c.icon = i.idIcon
-     WHERE c.idUser = :userId
-     ORDER BY c.name ASC'
+
+     LEFT JOIN icons i
+       ON c.icon = i.idIcon
+
+     LEFT JOIN categoryUserSettings cus
+       ON cus.idCategory = c.idCategory
+       AND cus.idUser = :settingsUserId
+
+     WHERE c.idUser IS NULL
+        OR c.idUser = :ownerUserId
+
+     ORDER BY
+       c.type ASC,
+       c.name ASC'
   );
 
   $getCategories->execute([
-    ':userId' => $userId,
+    ':settingsUserId' => $userId,
+    ':ownerUserId' => $userId
   ]);
 
   $categories = $getCategories->fetchAll(PDO::FETCH_ASSOC);
@@ -435,16 +474,40 @@ function toggleCategoryState() {
     ], 400);
   }
 
+  /*
+   * On accepte :
+   * - une catégorie par défaut
+   * - une catégorie appartenant à l'utilisateur
+   *
+   * Pour une catégorie par défaut, on récupère son état effectif
+   * pour l'utilisateur connecté.
+   */
   $findCategory = $bdd->prepare(
-    'SELECT idCategory, state
-     FROM categories
-     WHERE idCategory = :idCategory
-       AND idUser = :userId
+    'SELECT
+       c.idCategory,
+       c.idUser,
+
+       CASE
+         WHEN c.idUser IS NULL THEN COALESCE(cus.state, c.state)
+         ELSE c.state
+       END AS state
+
+     FROM categories c
+
+     LEFT JOIN categoryUserSettings cus
+       ON cus.idCategory = c.idCategory
+       AND cus.idUser = :settingsUserId
+
+     WHERE c.idCategory = :idCategory
+       AND (c.idUser IS NULL OR c.idUser = :ownerUserId)
+
      LIMIT 1'
   );
+
   $findCategory->execute([
+    ':settingsUserId' => $userId,
     ':idCategory' => $idCategory,
-    ':userId' => $userId
+    ':ownerUserId' => $userId
   ]);
 
   $category = $findCategory->fetch(PDO::FETCH_ASSOC);
@@ -459,17 +522,51 @@ function toggleCategoryState() {
   $currentState = $category['state'] ?? 'active';
   $newState = $currentState === 'inactive' ? 'active' : 'inactive';
 
-  $updateCategory = $bdd->prepare(
-    'UPDATE categories
-     SET state = :state
-     WHERE idCategory = :idCategory
-       AND idUser = :userId'
-  );
-  $updateCategory->execute([
-    ':state' => $newState,
-    ':idCategory' => $idCategory,
-    ':userId' => $userId
-  ]);
+  /*
+   * Catégorie par défaut :
+   * on ne modifie jamais categories.state.
+   * On stocke uniquement la préférence de l'utilisateur.
+   */
+  if ($category['idUser'] === null) {
+    $updateState = $bdd->prepare(
+      'INSERT INTO categoryUserSettings (
+         idUser,
+         idCategory,
+         state
+       )
+       VALUES (
+         :idUser,
+         :idCategory,
+         :state
+       )
+       ON DUPLICATE KEY UPDATE
+         state = :updateState'
+    );
+
+    $updateState->execute([
+      ':idUser' => $userId,
+      ':idCategory' => $idCategory,
+      ':state' => $newState,
+      ':updateState' => $newState
+    ]);
+  } else {
+    /*
+     * Catégorie personnelle :
+     * l'état reste stocké directement dans categories.state.
+     */
+    $updateState = $bdd->prepare(
+      'UPDATE categories
+       SET state = :state
+       WHERE idCategory = :idCategory
+         AND idUser = :idUser'
+    );
+
+    $updateState->execute([
+      ':state' => $newState,
+      ':idCategory' => $idCategory,
+      ':idUser' => $userId
+    ]);
+  }
 
   response([
     'success' => true,
@@ -492,6 +589,7 @@ function deleteCategory() {
     ], 400);
   }
 
+  // Une catégorie par défaut (idUser = NULL) ne peut pas être supprimée par l'utilisateur.
   $findCategory = $bdd->prepare(
     'SELECT idCategory
      FROM categories

@@ -72,3 +72,24 @@ CREATE TABLE IF NOT EXISTS categories
             REFERENCES users (idUser)
             ON DELETE CASCADE
 ) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS categoryUserSettings
+(
+    idUser     INT UNSIGNED NOT NULL,
+    idCategory INT          NOT NULL,
+    state      ENUM ('active', 'inactive') NOT NULL DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (idUser, idCategory),
+
+    CONSTRAINT fk_categoryUserSettings_user
+        FOREIGN KEY (idUser)
+            REFERENCES users (idUser)
+            ON DELETE CASCADE,
+
+    CONSTRAINT fk_categoryUserSettings_category
+        FOREIGN KEY (idCategory)
+            REFERENCES categories (idCategory)
+            ON DELETE CASCADE
+) ENGINE = InnoDB;
