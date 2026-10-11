@@ -166,6 +166,7 @@ function isMonochromeSvg(DOMDocument $dom): bool{
       'transparent',
       'currentColor',
       'inherit',];
+
     if(in_array($color,$ignoredColors,true)){
       return;
     }

@@ -6,7 +6,7 @@ if (!isUserLoggedIn()) {
   exit;
 }
 
-$authContentPath = __DIR__ . '/../pageContent/auth/';
+$authContentPath = __DIR__ . '/../pageContent/categories/';
 
 ?>
 <!DOCTYPE html>
@@ -25,12 +25,21 @@ $authContentPath = __DIR__ . '/../pageContent/auth/';
 
   <!-- Script pour la gestion de l'UI -->
   <script src="../tempFiles/scripts/categories-ui.js" defer></script>
+
+	<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+	<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script src="../scripts/react/categories/icons-library-skeleton.jsx" type="text/babel"></script>
+	<script src="../scripts/react/categories/categories-list-skeleton.jsx" type="text/babel"></script>
 </head>
 
 <body>
 
 <main class="connectedPage">
-
+  <?php include $authContentPath . 'iconsForm.html'; ?>
+  <?php include $authContentPath . 'categoriesForm.html'; ?>
+  <?php include $authContentPath . 'viewCat.html'; ?>
+  <?php include $authContentPath . 'updateCatForm.html'; ?>
 </main>
 
 </body>

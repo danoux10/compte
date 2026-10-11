@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-</head>
-<body>
+<button type="button" id="toggle-category-form">Masquer ajouter catégorie</button>
 
-</body>
-</html>
+<form action="" method="post" id="category-form" class="is-hidden">
+	<div id="response-category"></div>
+	<span>
+		<label for="categoryName">Nom de la catégorie</label>
+		<input type="text" name="category-name" id="categoryName" required>
+	</span>
+	<div class="category-type-row">
+		<span>
+			<label for="expense">Dépense</label>
+			<input type="radio" name="category-type" id="expense" value="expense" required>
+		</span>
+		<span>
+			<label for="income">Revenu</label>
+			<input type="radio" name="category-type" id="income" value="income" required>
+		</span>
+	</div>
+
+	<span>
+		<label for="categoryColor">Couleur</label>
+		<input type="color" name="category-color" id="categoryColor" required>
+		<button type="button" id="random-color">Couleur Aléatoire</button>
+	</span>
+
+	<div id="preview-category"></div>
+
+	<div>
+		<div id="icon-library-root"></div>
+		<button type="button" id="open-addIcon">Ajouter des icons</button>
+	</div>
+
+	<button type="submit">Ajouter Catégorie</button>
+	<button type="reset">Annuler</button>
+</form>

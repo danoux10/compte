@@ -1,0 +1,54 @@
+<form action="" method="post" id="update-category-form" class="is-hidden">
+	<div id="response-update-category"></div>
+
+	<h3>Modifier la catégorie</h3>
+
+	<input type="hidden" name="category-id" id="update-category-id" value="">
+	<input type="hidden" name="category-icon" id="update-category-icon" value="">
+	<input type="hidden" name="category-state" id="update-category-state" value="active">
+
+	<span>
+		<label for="update-category-name">Nom de la catégorie</label>
+		<input type="text" name="category-name" id="update-category-name" required>
+	</span>
+
+	<div class="category-type-row">
+		<span>
+			<label for="update-expense">Dépense</label>
+			<input type="radio" name="update-category-type" id="update-expense" value="expense" required>
+		</span>
+		<span>
+			<label for="update-income">Revenu</label>
+			<input type="radio" name="update-category-type" id="update-income" value="income" required>
+		</span>
+	</div>
+
+	<span>
+		<label for="update-category-color">Couleur</label>
+		<input type="color" name="category-color" id="update-category-color" required>
+	</span>
+
+	<div class="update-category-state-row">
+		<label for="update-category-state-toggle">État</label>
+		<button
+			type="button"
+			id="update-category-state-toggle"
+			class="category-state-badge is-active"
+			data-state="active"
+			aria-pressed="true"
+		>
+			Actif
+		</button>
+	</div>
+
+	<div id="update-category-preview" class="update-category-preview"></div>
+
+	<div>
+		<div id="update-icon-library-root"></div>
+	</div>
+
+	<div class="update-category-actions">
+		<button type="submit">Enregistrer</button>
+		<button type="button" id="close-update-category">Annuler</button>
+	</div>
+</form>
