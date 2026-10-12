@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS compte;
+# DROP DATABASE IF EXISTS compte;
 CREATE DATABASE IF NOT EXISTS compte
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
@@ -92,4 +92,62 @@ CREATE TABLE IF NOT EXISTS categoryUserSettings
         FOREIGN KEY (idCategory)
             REFERENCES categories (idCategory)
             ON DELETE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS subscriptions
+(
+    -- Identifiant
+    idSubscription INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+
+    -- Relations
+    idUser         INT UNSIGNED NOT NULL,
+    idCategory     INT NOT NULL,
+
+    -- Informations de l'abonnement
+    name           VARCHAR(255) NOT NULL,
+    amount         DECIMAL(10,2) NOT NULL,
+
+    -- Périodicité : mensuelle ou annuelle
+    frequency      ENUM('monthly', 'yearly') NOT NULL,
+
+    -- Dates
+    start_date        DATE NOT NULL,
+    next_payment_date DATE DEFAULT NULL,
+    end_date          DATE DEFAULT NULL,
+
+    -- État de l'abonnement
+    state ENUM(
+        'active',
+        'paused',
+        'cancelled'
+        ) NOT NULL DEFAULT 'active',
+
+    -- Archivage (sans suppression)
+    is_archived BOOLEAN NOT NULL DEFAULT FALSE,
+
+    -- Historique
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Relation avec l'utilisateur
+    CONSTRAINT fk_subscriptions_user
+        FOREIGN KEY (idUser)
+            REFERENCES users(idUser)
+            ON DELETE CASCADE,
+
+    -- Relation avec la catégorie
+    CONSTRAINT fk_subscriptions_category
+        FOREIGN KEY (idCategory)
+            REFERENCES categories(idCategory)
+            ON DELETE RESTRICT,
+
+    -- Vérification du montant
+    CONSTRAINT chk_subscriptions_amount
+        CHECK (amount > 0),
+
+    -- Index pour optimiser les recherches
+    INDEX idx_subscriptions_user_state_date
+        (idUser, state, next_payment_date)
+
 ) ENGINE = InnoDB;
