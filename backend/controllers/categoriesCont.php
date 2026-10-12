@@ -8,8 +8,8 @@ require_once '../helpers/session.php';
 require_once '../helpers/icons.php';
 
 //Validation des champs du formulaire de création de catégorie.
-require_once '../helpers/Validator/icons.php';
-require_once '../helpers/Validator/categories.php';
+require_once '../helpers/validator/icons.php';
+require_once '../helpers/validator/categories.php';
 
 // Récupère l'action demandée par la requête HTTP.
 $task = getTask();

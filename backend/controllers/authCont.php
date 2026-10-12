@@ -8,8 +8,8 @@ require_once '../helpers/session.php';
 require_once '../helpers/authConfig.php';
 
 // Validation des champs du formulaire d'inscription.
-require_once '../helpers/Validator/register.php';
-require_once '../helpers/Validator/login.php';
+require_once '../helpers/validator/register.php';
+require_once '../helpers/validator/login.php';
 
 // Récupère l'action demandée par la requête HTTP.
 $task = getTask();
